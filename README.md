@@ -71,6 +71,13 @@ and ask: *"Open Settings on my iPhone and go to Wi-Fi."*
   upload directly; the setup script prints the command.
 - **`pair` says board not found** — the pairing window is the first 3 minutes after the board powers up. Unplug,
   replug, run `pair` right away.
+- **Hotspot password** — the board generates it on first boot and only the iOS app shows it. Read it over Bluetooth:
+  `uv run scripts/wifi-password.py`.
+- **`several boards found (xxxx, xxxx)` with a single board** — BlueZ caches the board under several rotating random
+  addresses. Remove the stale entries and retry:
+  `bluetoothctl devices | grep "ESP32 Agent" | awk '{print $2}' | xargs -n1 bluetoothctl remove`
+- **Stale status after moving the board from the PC to the iPhone** — the board reboots; restart the daemon with
+  `esp32agent daemon stop`.
 
 ## Want the standalone iOS app instead?
 
